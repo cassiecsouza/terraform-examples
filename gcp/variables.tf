@@ -13,13 +13,3 @@ variable "machine_type" {
 variable "image" {
   description = "The image to use for the VM's boot disk."
 }
-
-variable "network" {
-  description = "The network to attach the VM's network interface to."
-}
-
-variable "tags" {
-  description = "The tags to apply to the VM."
-  type        = list(string)
-}
-
