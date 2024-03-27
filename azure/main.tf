@@ -48,6 +48,16 @@ resource "azurerm_virtual_machine" "example" {
     version   = "latest"
   }
 
+  os_profile {
+    computer_name  = "${var.resource_group_name}-vm"
+    admin_username = "adminuser"
+    admin_password = var.admin_password
+  }
+
+  os_profile_linux_config {
+    disable_password_authentication = false
+  }
+  
   storage_os_disk {
     name              = "${var.resource_group_name}-osdisk"
     caching           = "ReadWrite"
