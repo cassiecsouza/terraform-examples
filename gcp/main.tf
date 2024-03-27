@@ -20,6 +20,5 @@ resource "google_compute_instance" "example" {
     }
   }
 
-  tags = var.tags
+  tags = ["wfdemo"]
 }
-

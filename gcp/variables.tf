@@ -13,9 +13,3 @@ variable "machine_type" {
 variable "image" {
   description = "The image to use for the VM's boot disk."
 }
-
-variable "tags" {
-  description = "The tags to apply to the VM."
-  type        = list(string)
-  default     = ["wfdemo"]  # Example tag, modify as needed
-}
