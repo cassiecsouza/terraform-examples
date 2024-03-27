@@ -8,55 +8,46 @@ resource "azurerm_resource_group" "example" {
 }
 
 resource "azurerm_virtual_network" "example" {
-  name                = var.virtual_network_name
-  address_space       = var.address_space
+  name                = "${var.resource_group_name}-vnet"
+  address_space       = ["10.0.0.0/16"]
   location            = azurerm_resource_group.example.location
   resource_group_name = azurerm_resource_group.example.name
 }
 
 resource "azurerm_subnet" "example" {
-  name                 = var.subnet_name
+  name                 = "${var.resource_group_name}-subnet"
   resource_group_name  = azurerm_resource_group.example.name
   virtual_network_name = azurerm_virtual_network.example.name
-  address_prefixes     = var.subnet_address_prefixes
+  address_prefixes     = ["10.0.1.0/24"]
 }
 
 resource "azurerm_network_interface" "example" {
-  name                = var.network_interface_name
+  name                = "${var.resource_group_name}-nic"
   location            = azurerm_resource_group.example.location
   resource_group_name = azurerm_resource_group.example.name
 
   ip_configuration {
-    name                          = var.ip_configuration_name
+    name                          = "${var.resource_group_name}-ipconfig"
     subnet_id                     = azurerm_subnet.example.id
-    private_ip_address_allocation = var.private_ip_allocation
+    private_ip_address_allocation = "Dynamic"
   }
 }
 
 resource "azurerm_virtual_machine" "example" {
-  name                  = var.virtual_machine_name
+  name                  = "${var.resource_group_name}-vm"
   location              = azurerm_resource_group.example.location
   resource_group_name   = azurerm_resource_group.example.name
   network_interface_ids = [azurerm_network_interface.example.id]
-  vm_size               = var.vm_size
+  vm_size               = "Standard_B1ls"  # Cheapest VM size
 
   storage_image_reference {
-    publisher = var.publisher
-    offer     = var.offer
-    sku       = var.sku
-    version   = var.version
+    publisher = "Debian"
+    offer     = "debian-10"
+    sku       = "10"
+    version   = "latest"
   }
 
-  os_profile {
-    computer_name  = var.computer_name
-    admin_username = var.admin_username
-    admin_password = var.admin_password
+  tags = {
+    environment = "wfdemo"
   }
-
-  os_profile_linux_config {
-    disable_password_authentication = false
-  }
-
-  tags = var.tags
 }
-
