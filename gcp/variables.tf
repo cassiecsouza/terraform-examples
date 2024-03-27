@@ -16,6 +16,5 @@ variable "image" {
 
 variable "tags" {
   description = "The tags to apply to the VM."
-  type        = list(string)
 }
 
