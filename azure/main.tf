@@ -47,6 +47,13 @@ resource "azurerm_virtual_machine" "example" {
     version   = "latest"
   }
 
+  storage_os_disk {
+    name              = "${var.resource_group_name}-osdisk"
+    caching           = "ReadWrite"
+    create_option     = "FromImage"
+    managed_disk_type = "StandardSSD_LRS"  # You can choose the appropriate disk type based on your requirements
+  }
+
   tags = {
     environment = "wfdemo"
   }
