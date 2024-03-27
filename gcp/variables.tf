@@ -6,7 +6,7 @@ variable "region" {
   description = "The region where the VM will be created."
 }
 
-variable "region" {
+variable "zone" {
   description = "The zone where the VM will be created."
 }
 
