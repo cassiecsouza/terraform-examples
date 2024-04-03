@@ -161,6 +161,14 @@ resource "harness_platform_pipeline" "example" {
                 identifier: Build_App
                 type: CI
             - stage:
+                identifier: Change_Management
+                type: Custom
+                spec:
+                  environment:
+                    environmentRef: dev
+                    infrastructureDefinitions:
+                      - identifier: kubedev              
+            - stage:
                 identifier: K8s_Deployment
                 type: Deployment
                 spec:
