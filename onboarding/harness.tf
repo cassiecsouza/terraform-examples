@@ -167,7 +167,9 @@ resource "harness_platform_pipeline" "example" {
                   environment:
                     environmentRef: dev
                     infrastructureDefinitions:
-                      - identifier: kubedev              
+                      - identifier: kubedev
+                  service:
+                    serviceRef: datascience             
             - stage:
                 identifier: K8s_Deployment
                 type: Deployment
