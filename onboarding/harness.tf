@@ -138,6 +138,7 @@ resource "harness_platform_infrastructure" "example" {
 }
 
 resource "harness_platform_pipeline" "example" {
+  depends_on = [harness_platform_infrastructure.example]
   identifier = "Build_and_Deploy_Java_App"
   org_id     =  var.org_id
   project_id =  var.project_identifier
