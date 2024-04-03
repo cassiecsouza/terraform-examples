@@ -40,23 +40,16 @@ resource "harness_platform_service" "my_service" {
                 type: K8sManifest
                 spec:
                   store:
-                    type: Harness
+                    type: Github
                     spec:
-                      files:
-                        - account:/k8sManifests/namespace.yaml
-                        - account:/k8sManifests/deployment.yaml
-                        - account:/k8sManifests/service.yaml
-                  valuesPaths:
-                    - account:/k8sManifests/values.yaml
+                      connectorRef: account.Public_Github
+                      gitFetchType: Branch
+                      paths:
+                        - deploy/deployment.yaml
+                      repoName: harnessworkshop/<+pipeline.variables.projectName>
+                      branch: develop
                   skipResourceVersioning: false
                   enableDeclarativeRollback: false
-          variables:
-            - name: var1
-              type: String
-              value: val1
-            - name: var2
-              type: String
-              value: val2
           artifacts:
             primary:
               primaryArtifactRef: Dockerhub
@@ -64,7 +57,7 @@ resource "harness_platform_service" "my_service" {
                 - spec:
                     connectorRef: account.LRDockerHub
                     imagePath: luisredda/harness-java-demo-k8s
-                    tag: latest
+                    tag: latest-wf
                   identifier: Dockerhub
                   type: DockerRegistry         
         type: Kubernetes
@@ -78,7 +71,7 @@ resource "harness_platform_environment" "example" {
   name       = var.environment_name
   org_id     = var.org_id
   project_id = var.project_identifier
-  tags       = ["foo:bar", "baz"]
+  tags       = ["wfdemo", "aks"]
   type       = "PreProduction"
   force_delete = true
 
@@ -130,7 +123,7 @@ resource "harness_platform_infrastructure" "example" {
          deploymentType: Kubernetes
          type: KubernetesDirect
          spec:
-          connectorRef: account.cddemose
+          connectorRef: org.cassieaks
           namespace: temp-${var.project_identifier}
           releaseName: release-<+INFRA_KEY>
           allowSimultaneousDeployments: false
