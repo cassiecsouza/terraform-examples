@@ -148,14 +148,14 @@ resource "harness_platform_pipeline" "example" {
       name: Build and Deploy Java App
       identifier: Build_and_Deploy_Java_App
       template:
-        templateRef: account.Java_Pipeline
+        templateRef: org.WF_Java_Template
         versionLabel: v1
         templateInputs:
           properties:
             ci:
               codebase:
                 build: <+input>
-                repoName: luisredda/harness-onboarding-demo
+                repoName: <+input>
           stages:
             - stage:
                 identifier: Build_App
