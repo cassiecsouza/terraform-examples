@@ -169,7 +169,7 @@ resource "harness_platform_pipeline" "example" {
                   environment:
                     environmentRef: dev
                     infrastructureDefinitions:
-                      - identifier: k8sdev
+                      - identifier: kubedev
       tags: {}
       projectIdentifier: ${var.project_identifier}
       orgIdentifier: ${var.org_id}
