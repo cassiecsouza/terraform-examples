@@ -46,7 +46,7 @@ resource "harness_platform_service" "my_service" {
                       gitFetchType: Branch
                       paths:
                         - deploy/deployment.yaml
-                      repoName: harnessworkshop/<+pipeline.variables.projectName>
+                      repoName: <+input>
                       branch: develop
                   skipResourceVersioning: false
                   enableDeclarativeRollback: false
@@ -124,7 +124,7 @@ resource "harness_platform_infrastructure" "example" {
          type: KubernetesDirect
          spec:
           connectorRef: org.cassieaks
-          namespace: temp-${var.project_identifier}
+          namespace: wfdemo
           releaseName: release-<+INFRA_KEY>
           allowSimultaneousDeployments: false
       EOT
@@ -150,6 +150,13 @@ resource "harness_platform_pipeline" "example" {
                 build: <+input>
                 repoName: <+input>
           stages:
+            - stage:
+                identifier: Build_App
+                type: CI
+                variables:
+                  - name: projectName
+                    type: String
+                    value: <+input>          
             - stage:
                 identifier: Change_Management
                 type: Custom
