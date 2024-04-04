@@ -149,14 +149,7 @@ resource "harness_platform_pipeline" "example" {
               codebase:
                 build: <+input>
                 repoName: <+input>
-          stages:
-            - stage:
-                identifier: Build_App
-                type: CI
-                variables:
-                  - name: projectName
-                    type: String
-                    value: <+input>          
+          stages:        
             - stage:
                 identifier: Change_Management
                 type: Custom
@@ -171,6 +164,19 @@ resource "harness_platform_pipeline" "example" {
                 spec:
                   service:
                     serviceRef: datascience
+                    serviceInputs:
+                      serviceDefinition:
+                        type: Kubernetes
+                        spec:
+                          manifests:
+                            - manifest:
+                                identifier: Manifests
+                                type: K8sManifest
+                                spec:
+                                  store:
+                                    type: Github
+                                    spec:
+                                      repoName: <+input>                    
                   environment:
                     environmentRef: dev
                     infrastructureDefinitions:
